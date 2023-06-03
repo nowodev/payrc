@@ -1,10 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -32,7 +26,13 @@
                                                     Company Name</th>
                                                 <th scope="col"
                                                     class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                                                    Pay / Hr</th>
+                                                    Position</th>
+                                                <th scope="col"
+                                                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                                    Work Setting</th>
+                                                <th scope="col"
+                                                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                                    Job Type</th>
                                                 <th scope="col"
                                                     class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                                                     Pay / Hr</th>
@@ -48,9 +48,14 @@
                                             <tr>
                                                 <td
                                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">
-                                                    WCAY</td>
+                                                    <a href="{{ route('shift') }}">WCAY</a>
+                                                </td>
                                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                     DSS</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    Onsite</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    Full-Time</td>
                                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                     $13</td>
                                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -58,8 +63,7 @@
                                                 <td
                                                     class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                                                     <a href="#"
-                                                        class="text-indigo-600 hover:text-indigo-900">Edit<span
-                                                            class="sr-only">, Lindsay Walton</span></a>
+                                                        class="text-indigo-600 hover:text-indigo-900">Edit</a>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -72,6 +76,5 @@
             </div>
         </div>
     </div>
-
 
 </x-app-layout>
