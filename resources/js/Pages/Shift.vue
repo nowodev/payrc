@@ -185,6 +185,8 @@ const closeModal = () => {
                                 <TextInput id="name" type="text" v-model="form.name"
                                     class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                     placeholder="Morning" />
+
+                                <InputError :message="form.errors.name" class="mt-2" />
                             </div>
 
                             <div
@@ -197,6 +199,8 @@ const closeModal = () => {
 
                                 <TextInput id="start_time" type="time" v-model="form.start_time"
                                     class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" />
+
+                                <InputError :message="form.errors.start_time" class="mt-2" />
                             </div>
 
                             <div
@@ -209,6 +213,8 @@ const closeModal = () => {
 
                                 <TextInput id="end_time" type="time" v-model="form.end_time"
                                     class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" />
+
+                                <InputError :message="form.errors.end_time" class="mt-2" />
                             </div>
                         </div>
 
@@ -252,6 +258,8 @@ const closeModal = () => {
                                     class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
                                     <span class="text-gray-500 sm:text-sm">MIN</span>
                                 </div>
+
+                                <InputError :message="form.errors.break_duration" class="mt-2" />
                             </div>
 
                             <div
@@ -264,6 +272,8 @@ const closeModal = () => {
 
                                 <TextInput id="start_break" type="time" v-model="form.start_break"
                                     class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" />
+
+                                <InputError :message="form.errors.start_break" class="mt-2" />
                             </div>
 
                             <div
@@ -276,6 +286,8 @@ const closeModal = () => {
 
                                 <TextInput id="end_break" type="time" v-model="form.end_break"
                                     class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm" />
+
+                                <InputError :message="form.errors.end_break" class="mt-2" />
                             </div>
 
                             <div
@@ -289,6 +301,8 @@ const closeModal = () => {
                                 <TextInput id="total_hours" type="text" v-model="form.total_hours"
                                     class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                     readonly />
+
+                                <InputError :message="form.errors.total_hours" class="mt-2" />
                             </div>
                         </div>
                     </form>

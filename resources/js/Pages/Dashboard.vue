@@ -7,6 +7,7 @@ import { ref } from 'vue';
 import TextInput from '@/Components/TextInput.vue';
 // import Select from '@/Components/Select.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import InputError from '@/Components/InputError.vue';
 
 const confirmingJobAddition = ref(false);
 
@@ -145,6 +146,8 @@ const closeModal = () => {
                                 <TextInput id="company_name" type="text" v-model="form.company_name"
                                     class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                     placeholder="Apple" />
+
+                                <InputError :message="form.errors.company_name" class="mt-2" />
                             </div>
 
                             <div
@@ -158,6 +161,8 @@ const closeModal = () => {
                                 <TextInput id="position" type="text" v-model="form.position"
                                     class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
                                     placeholder="Software Developer" />
+
+                                <InputError :message="form.errors.position" class="mt-2" />
                             </div>
                         </div>
 
@@ -211,6 +216,8 @@ const closeModal = () => {
                                     <span class="text-gray-500 sm:text-sm" id="price-currency">/
                                         HR</span>
                                 </div>
+
+                                <InputError :message="form.errors.pay_rate" class="mt-2" />
                             </div>
 
                             <div
