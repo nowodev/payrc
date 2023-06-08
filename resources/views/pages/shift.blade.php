@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="py-12">
+    <div class="py-12" x-data="{ openForm: false }">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-4">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-4 sm:p-6 lg:p-8">
                 <div class="min-w-0 flex-1">
@@ -76,9 +76,9 @@
                             <p class="mt-2 text-sm text-gray-700">A list of all available shifts for this job.</p>
                         </div>
                         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                            <button type="button"
-                                class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto">Add
-                                Shift</button>
+                            <x-secondary-button @click="openForm = !openForm">
+                                Add Shift
+                            </x-secondary-button>
                         </div>
                     </div>
 
@@ -101,6 +101,9 @@
                                                 <th scope="col"
                                                     class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                                                     Break</th>
+                                                <th scope="col"
+                                                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                                                    Break Type</th>
                                                 <th scope="col"
                                                     class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
                                                     Start Break</th>
@@ -145,6 +148,8 @@
                                                     </svg>
                                                 </td>
                                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                    Paid</td>
+                                                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                     11:30 am</td>
                                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                                                     12:00 pm</td>
@@ -164,6 +169,146 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div x-show="openForm" class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title"
+            role="dialog" aria-modal="true">
+            <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0">
+                <div x-cloak @click="openForm = false" x-show="openForm"
+                    x-transition:enter="transition ease-out duration-300 transform"
+                    x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                    x-transition:leave="transition ease-in duration-200 transform"
+                    x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                    class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-40" aria-hidden="true"></div>
+
+                <div x-cloak x-show="openForm" x-transition:enter="transition ease-out duration-300 transform"
+                    x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave="transition ease-in duration-200 transform"
+                    x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                    x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                    class="inline-block w-full max-w-xl p-8 my-20 overflow-hidden text-left transition-all transform bg-white rounded-lg shadow-xl 2xl:max-w-2xl">
+                    <div class="flex items-center justify-between space-x-4">
+                        <h1 class="text-xl font-medium text-gray-800">Create Shift</h1>
+
+                        <button @click="openForm = false"
+                            class="text-gray-600 focus:outline-none hover:text-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <p class="mt-2 text-sm text-gray-500 ">
+                        Add your teammate to your team and start work to get things done
+                    </p>
+
+                    <form class="mt-8 space-y-8">
+                        <div class="grid grid-cols-3 gap-x-4">
+                            <div
+                                class="relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+                                <label for="company_name"
+                                    class="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900">
+                                    Name</label>
+                                <input type="text" name="company_name" id="company_name"
+                                    class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                    placeholder="Morning">
+                            </div>
+
+                            <div
+                                class="relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+                                <label for="position"
+                                    class="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900">
+                                    Start Time</label>
+                                <input type="time" name="position" id="position"
+                                    class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                            </div>
+
+                            <div
+                                class="relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+                                <label for="position"
+                                    class="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900">
+                                    End Time</label>
+                                <input type="time" name="position" id="position"
+                                    class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-x-4 gap-y-8">
+                            <div class="relative rounded-md border border-gray-300 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+                                <label for="work_setting"
+                                    class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">
+                                    Has Break</label>
+                                <select id="work_setting" name="work_setting"
+                                    class="block w-full border-0 rounded-md border-gray-300 py-2 pl-3 pr-10 focus:ring-0 sm:text-sm">
+                                    <option>Yes</option>
+                                    <option>No</option>
+                                </select>
+                            </div>
+
+                            <div class="relative rounded-md border border-gray-300 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+                                <label for="work_setting"
+                                    class="absolute -top-2 left-2 inline-block bg-white px-1 text-xs font-medium text-gray-900">
+                                    Break Type</label>
+                                <select id="work_setting" name="work_setting"
+                                    class="block w-full border-0 rounded-md border-gray-300 py-2 pl-3 pr-10 focus:ring-0 sm:text-sm">
+                                    <option>Paid</option>
+                                    <option>Unpaid</option>
+                                </select>
+                            </div>
+
+                            <div class="relative rounded-md shadow-sm">
+                                <label for="pay_rate"
+                                    class="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900">
+                                    Break Duration
+                                </label>
+
+                                <input type="text" name="price" id="price"
+                                    class="block w-full rounded-md border-gray-300 pr-12 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                    placeholder="30" aria-describedby="price-currency" />
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                    <span class="text-gray-500 sm:text-sm" id="price-currency">MIN</span>
+                                </div>
+                            </div>
+
+                            <div
+                                class="relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+                                <label for="position"
+                                    class="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900">
+                                    Start Break</label>
+                                <input type="time" name="position" id="position"
+                                    class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                            </div>
+
+                            <div
+                                class="relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+                                <label for="position"
+                                    class="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900">
+                                    End Break</label>
+                                <input type="time" name="position" id="position"
+                                    class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm">
+                            </div>
+
+                            <div
+                                class="relative rounded-md border border-gray-300 px-3 py-2 shadow-sm focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
+                                <label for="company_name"
+                                    class="absolute -top-2 left-2 -mt-px inline-block bg-white px-1 text-xs font-medium text-gray-900">
+                                    Total Hours</label>
+                                <input type="text" name="company_name" id="company_name"
+                                    class="block w-full border-0 p-0 text-gray-900 placeholder-gray-500 focus:ring-0 sm:text-sm"
+                                    placeholder="16" readonly>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end mt-6">
+                            <x-primary-button>Add</x-primary-button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
