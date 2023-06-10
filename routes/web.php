@@ -26,10 +26,6 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::get('jobs/shift', function () {
     return Inertia::render('Shift');
 })->middleware('auth')->name('shift');

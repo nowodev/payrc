@@ -15,7 +15,7 @@ class JobController extends Controller
     {
         $jobs = Job::get();
 
-        return inertia('Dashboard', [
+        return inertia('Job', [
             'jobs' => $jobs
         ]);
     }
@@ -37,7 +37,7 @@ class JobController extends Controller
 
         Job::query()->create($data);
 
-        return to_route('dashboard');
+        return to_route('jobs.index');
     }
 
     /**

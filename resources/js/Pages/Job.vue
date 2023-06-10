@@ -36,15 +36,21 @@ const closeModal = () => {
 
 	form.reset();
 };
+
+defineProps({
+	jobs: {
+		type: Object,
+	},
+});
 </script>
 
 <template>
-	<Head title="Dashboard" />
+	<Head title="Job" />
 
 	<AuthenticatedLayout>
 		<template #header>
 			<h2 class="font-semibold text-xl text-gray-800 leading-tight">
-				Dashboard
+				Jobs
 			</h2>
 		</template>
 
@@ -132,36 +138,39 @@ const closeModal = () => {
 											<tbody
 												class="divide-y divide-gray-200 bg-white"
 											>
-												<tr>
+												<tr
+													v-for="job in jobs"
+													:key="job.id"
+												>
 													<td
 														class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
 													>
-														<a>WCAY</a>
+														{{ job.company_name }}
 													</td>
 													<td
 														class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
 													>
-														DSS
+														{{ job.position }}
 													</td>
 													<td
 														class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
 													>
-														Onsite
+														{{ job.work_setting }}
 													</td>
 													<td
 														class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
 													>
-														Full-Time
+														{{ job.job_type }}
 													</td>
 													<td
 														class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
 													>
-														$13
+														{{ job.pay_rate }}
 													</td>
 													<td
 														class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
 													>
-														Bi-Weekly
+														{{ job.pay_time }}
 													</td>
 													<td
 														class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
