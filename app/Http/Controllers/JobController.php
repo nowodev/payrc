@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
+use Illuminate\Support\Facades\Request;
 
 class JobController extends Controller
 {
@@ -13,19 +14,17 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = Job::get();
+        $job_id = Request::get('job_id');
+        $job = null;
+
+        if (!empty($job_id)) {
+            $job = Job::findOrFail($job_id);
+        }
 
         return inertia('Job', [
-            'jobs' => $jobs
+            'jobs' => Job::get(),
+            'job'  => fn () => $job
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -45,23 +44,29 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-        //
     }
 
     /**
      * Show the form for editing the specified resource.
      */
+    // public function edit($id)
     public function edit(Job $job)
     {
-        //
+        return back()->with([
+            "job" => $job
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateJobRequest $request, Job $jobs)
+    public function update(UpdateJobRequest $request, Job $job)
     {
-        //
+        $data = $request->validated();
+
+        $job->update($data);
+
+        return to_route('jobs.index');
     }
 
     /**

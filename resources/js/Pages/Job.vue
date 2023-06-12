@@ -9,7 +9,15 @@ import InputLabel from "@/Components/InputLabel.vue";
 import InputError from "@/Components/InputError.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 
+const props = defineProps({
+	jobs: Object,
+});
+
 const confirmingJobAddition = ref(false);
+
+const confirmingJobEdition = ref(false);
+
+let job_id = ref(0);
 
 const form = useForm({
 	company_name: "",
@@ -24,6 +32,27 @@ const confirmJobAddition = () => {
 	confirmingJobAddition.value = true;
 };
 
+const confirmJobEdition = (value) => {
+	confirmingJobEdition.value = true;
+
+	form.get(route("jobs.index", { job_id: value }), {
+		preserveScroll: true,
+		preserveState: true,
+		onSuccess: (res) => {
+			const response = res.props.job;
+
+			job_id = value;
+
+			form.company_name = response.company_name;
+			form.position = response.position;
+			form.work_setting = response.work_setting;
+			form.job_type = response.job_type;
+			form.pay_rate = response.pay_rate;
+			form.pay_time = response.pay_time;
+		},
+	});
+};
+
 const createJob = () => {
 	form.post(route("jobs.store"), {
 		preserveScroll: true,
@@ -31,17 +60,28 @@ const createJob = () => {
 	});
 };
 
+const updateJob = (value) => {
+	form.put(route("jobs.update", value), {
+		preserveScroll: true,
+		onSuccess: () => closeModal(),
+	});
+};
+
 const closeModal = () => {
 	confirmingJobAddition.value = false;
+	confirmingJobEdition.value = false;
+
+	form.defaults({
+		company_name: "",
+		position: "",
+		work_setting: "",
+		job_type: "",
+		pay_rate: "",
+		pay_time: "",
+	});
 
 	form.reset();
 };
-
-defineProps({
-	jobs: {
-		type: Object,
-	},
-});
 </script>
 
 <template>
@@ -68,9 +108,9 @@ defineProps({
 								</p>
 							</div>
 							<div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-								<SecondaryButton @click="confirmJobAddition"
-									>Add Job</SecondaryButton
-								>
+								<SecondaryButton @click="confirmJobAddition">
+									Add Job
+								</SecondaryButton>
 							</div>
 						</div>
 
@@ -175,11 +215,15 @@ defineProps({
 													<td
 														class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6"
 													>
-														<a
-															href="#"
-															class="text-indigo-600 hover:text-indigo-900"
-															>Edit</a
+														<SecondaryButton
+															@click="
+																confirmJobEdition(
+																	job.id
+																)
+															"
 														>
+															Edit
+														</SecondaryButton>
 													</td>
 												</tr>
 											</tbody>
@@ -192,7 +236,10 @@ defineProps({
 				</div>
 			</div>
 
-			<Modal :show="confirmingJobAddition" @close="closeModal">
+			<Modal
+				:show="confirmingJobAddition || confirmingJobEdition"
+				@close="closeModal"
+			>
 				<div class="p-6">
 					<div class="flex items-center justify-between space-x-4">
 						<h1 class="text-xl font-medium text-gray-800">
@@ -354,6 +401,7 @@ defineProps({
 						>
 
 						<PrimaryButton
+							v-if="confirmingJobAddition"
 							:class="{ 'opacity-25': form.processing }"
 							:disabled="form.processing"
 							@click="createJob"
@@ -361,7 +409,16 @@ defineProps({
 							Save
 						</PrimaryButton>
 
-						<Transition
+						<PrimaryButton
+							v-else
+							:class="{ 'opacity-25': form.processing }"
+							:disabled="form.processing"
+							@click="updateJob(job_id)"
+						>
+							Update
+						</PrimaryButton>
+
+						<!-- <Transition
 							enter-from-class="opacity-0"
 							leave-to-class="opacity-0"
 							class="transition ease-in-out"
@@ -372,7 +429,7 @@ defineProps({
 							>
 								Saved.
 							</p>
-						</Transition>
+						</Transition> -->
 					</div>
 				</div>
 			</Modal>
