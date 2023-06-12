@@ -13,20 +13,22 @@ const props = defineProps({
   jobs: Object,
 });
 
+let job_id = ref(0);
+
 const confirmingJobAddition = ref(false);
 
 const confirmingJobEdition = ref(false);
 
-let job_id = ref(0);
-
-const form = useForm({
+const defaultData = {
   company_name: "",
   position: "",
   work_setting: "",
   job_type: "",
   pay_rate: "",
   pay_time: "",
-});
+};
+
+const form = useForm(defaultData);
 
 const confirmJobAddition = () => {
   confirmingJobAddition.value = true;
@@ -71,14 +73,7 @@ const closeModal = () => {
   confirmingJobAddition.value = false;
   confirmingJobEdition.value = false;
 
-  form.defaults({
-    company_name: "",
-    position: "",
-    work_setting: "",
-    job_type: "",
-    pay_rate: "",
-    pay_time: "",
-  });
+  form.defaults(defaultData);
 
   form.reset();
 };
@@ -189,7 +184,7 @@ const closeModal = () => {
                           </td>
                         </tr>
 
-                        <tr v-show="!jobs">
+                        <tr v-show="jobs == ''">
                           <td
                             colspan="7"
                             class="whitespace-nowrap w-full text-center px-3 py-4 text-sm text-gray-500"
@@ -321,6 +316,7 @@ const closeModal = () => {
                   v-model="form.pay_time"
                   class="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                 >
+                  <option></option>
                   <option>Daily</option>
                   <option>Weekly</option>
                   <option>Bi-Weekly</option>
