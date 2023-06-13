@@ -21,7 +21,7 @@ const confirmingShiftAddition = ref(false);
 const confirmingShiftEdition = ref(false);
 
 const defaultData = {
-  name: "",
+  shift_name: "",
   start_time: "",
   end_time: "",
   has_break: "",
@@ -119,7 +119,6 @@ const closeModal = () => {
                 </li>
                 <li>
                   <div class="flex items-center">
-                    <!-- Heroicon name: mini/chevron-right -->
                     <svg
                       class="h-5 w-5 flex-shrink-0 text-gray-400"
                       xmlns="http://www.w3.org/2000/svg"
@@ -147,7 +146,6 @@ const closeModal = () => {
             </h2>
             <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap sm:space-x-6">
               <div class="mt-2 flex items-center text-sm text-gray-500">
-                <!-- Heroicon name: mini/briefcase -->
                 <svg
                   class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                   xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +165,6 @@ const closeModal = () => {
                 {{ job.job_type }}
               </div>
               <div class="mt-2 flex items-center text-sm text-gray-500">
-                <!-- Heroicon name: mini/map-pin -->
                 <svg
                   class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                   xmlns="http://www.w3.org/2000/svg"
@@ -184,7 +181,6 @@ const closeModal = () => {
                 {{ job.work_setting }}
               </div>
               <div class="mt-2 flex items-center text-sm text-gray-500">
-                <!-- Heroicon name: mini/currency-dollar -->
                 <svg
                   class="mr-1.5 h-5 w-5 flex-shrink-0 text-gray-400"
                   xmlns="http://www.w3.org/2000/svg"
@@ -234,7 +230,7 @@ const closeModal = () => {
                             scope="col"
                             class="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-6"
                           >
-                            Name
+                            Shift Name
                           </th>
                           <th
                             scope="col"
@@ -294,7 +290,7 @@ const closeModal = () => {
                           <td
                             class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"
                           >
-                            {{ shift.name }}
+                            {{ shift.shift_name }}
                           </td>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {{ shift.start_time }}
@@ -393,17 +389,17 @@ const closeModal = () => {
           <form class="mt-8 space-y-8">
             <div class="grid grid-cols-3 gap-x-4">
               <div>
-                <InputLabel for="name" value="Name" />
+                <InputLabel for="shift_name" value="Shfit Name" />
 
                 <TextInput
-                  id="name"
+                  id="shift_name"
                   type="text"
-                  v-model="form.name"
+                  v-model="form.shift_name"
                   class="block mt-1 w-full"
                   placeholder="Morning"
                 />
 
-                <InputError :message="form.errors.name" class="mt-2" />
+                <InputError :message="form.errors.shift_name" class="mt-2" />
               </div>
 
               <div>
@@ -532,7 +528,7 @@ const closeModal = () => {
             <SecondaryButton @click="closeModal">Cancel</SecondaryButton>
 
             <PrimaryButton
-              v-if="confirmShiftAddition"
+              v-if="confirmingShiftAddition"
               :class="{ 'opacity-25': form.processing }"
               :disabled="form.processing"
               @click="createShift(job.id)"
