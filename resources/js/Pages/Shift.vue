@@ -16,6 +16,8 @@ const props = defineProps({
 
 let shift_id = ref(0);
 
+let total_hours = ref(0);
+
 const confirmingShiftAddition = ref(false);
 
 const confirmingShiftEdition = ref(false);
@@ -34,6 +36,24 @@ const defaultData = {
 
 const form = useForm(defaultData);
 
+const calculateHours = () => {
+  if (form.has_break && form.break_type == "Unpaid") {
+    // get total hours
+    let hours = form.total_hours;
+
+    // convert hours to minutes
+    let minutes = hours * 60;
+
+    // subtract break from total minutes
+    let total_minutes = minutes - form.break_duration;
+
+    // convert minutes back to hours
+    return (total_hours = total_minutes / 60);
+  }
+
+  return form.total_hours;
+};
+
 const confirmShiftAddition = () => {
   confirmingShiftAddition.value = true;
 };
@@ -41,47 +61,63 @@ const confirmShiftAddition = () => {
 const confirmShiftEdition = (value) => {
   confirmingShiftEdition.value = true;
 
-  form.get(route("shift.index", { shift_id: value }), {
-    preserveScroll: true,
-    preserveState: true,
-    onSuccess: (res) => {
-      const response = res.props.shift;
+  form.get(
+    route("shift.index", {
+      job: props.job,
+      shift_id: value,
+    }),
+    {
+      preserveScroll: true,
+      preserveState: true,
+      onSuccess: (res) => {
+        const response = res.props.shift;
 
-      shift_id = value;
+        shift_id = value;
 
-      name = form.break_durnameation;
-      start_time = form.start_time;
-      end_time = form.end_time;
-      has_break = form.has_break;
-      break_type = form.break_type;
-      break_duration = form.break_duration;
-      start_break = form.start_break;
-      end_break = form.end_break;
-      total_hours = form.total_hours;
-    },
-  });
+        form.shift_name = response.shift_name;
+        form.start_time = response.start_time;
+        form.end_time = response.end_time;
+        form.has_break = response.has_break;
+        form.break_type = response.break_type ?? "";
+        form.break_duration = response.break_duration ?? "";
+        form.start_break = response.start_break ?? "";
+        form.end_break = response.end_break ?? "";
+        form.total_hours = response.total_hours;
+      },
+    }
+  );
 };
 
 const createShift = (value) => {
   form
     .transform((data) => ({
       ...data,
-      expected_earnings: props.job.pay_rate * form.total_hours,
+      // if break is unpaid, subtract breaktime from total hours
+      expected_earnings: props.job.pay_rate * calculateHours(),
     }))
     .post(route("shift.store", value), {
       preserveScroll: true,
       onSuccess: () => closeModal(),
-      onError: (err) => {
-        console.log(err);
-      },
     });
 };
 
 const updateShift = (value) => {
-  form.put(route("shift.update", value), {
-    preserveScroll: true,
-    onSuccess: () => closeModal(),
-  });
+  form
+    .transform((data) => ({
+      ...data,
+      // if break is unpaid, subtract breaktime from total hours
+      expected_earnings: props.job.pay_rate * calculateHours(),
+    }))
+    .put(
+      route("shift.update", {
+        job: props.job,
+        shift: value,
+      }),
+      {
+        preserveScroll: true,
+        onSuccess: () => closeModal(),
+      }
+    );
 };
 
 const closeModal = () => {
@@ -95,7 +131,7 @@ const closeModal = () => {
 </script>
 
 <template>
-  <Head title="Dashboard" />
+  <Head title="Shift" />
 
   <AuthenticatedLayout>
     <template #header>

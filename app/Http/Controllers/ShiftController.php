@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use App\Models\Shift;
+use Illuminate\Support\Facades\Request;
 use App\Http\Requests\StoreShiftRequest;
 use App\Http\Requests\UpdateShiftRequest;
 
@@ -14,17 +15,22 @@ class ShiftController extends Controller
      */
     public function index($job_id)
     {
-        // $job_id = Request::get('job_id');
-        // $job = null;
+        $shift_id = Request::get('shift_id');
+        $job      = null;
+        $shift    = null;
 
-        // if (!empty($job_id)) {
-        //     $job = Job::findOrFail($job_id);
-        // }
+        if (!empty($job_id)) {
+            $job = Job::findOrFail($job_id);
+        }
+
+        if (!empty($shift_id)) {
+            $shift = Shift::findOrFail($shift_id);
+        }
 
         return inertia('Shift', [
-            'job'    => Job::find($job_id),
+            'job'    => $job,
             'shifts' => Shift::where('job_id', $job_id)->get(),
-            // 'job'  => fn () => $job
+            'shift'  => fn () => $shift
         ]);
     }
 
@@ -37,7 +43,7 @@ class ShiftController extends Controller
 
         $job->shifts()->create($data);
 
-        return back();
+        return to_route('shift.index', $job);
     }
 
     /**
@@ -49,19 +55,15 @@ class ShiftController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Shift $shift)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateShiftRequest $request, Shift $shift)
+    public function update(UpdateShiftRequest $request, Job $job, Shift $shift)
     {
-        //
+        $data = $request->validated();
+
+        $job->shifts()->find($shift->id)->update($data);
+
+        return to_route('shift.index', $job);
     }
 
     /**
