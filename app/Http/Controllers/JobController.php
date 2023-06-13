@@ -15,6 +15,7 @@ class JobController extends Controller
     public function index()
     {
         $job_id = Request::get('job_id');
+
         $job = null;
 
         if (!empty($job_id)) {
@@ -44,17 +45,6 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    // public function edit($id)
-    public function edit(Job $job)
-    {
-        return back()->with([
-            "job" => $job
-        ]);
     }
 
     /**
