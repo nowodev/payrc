@@ -62,8 +62,10 @@ class JobController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Job $jobs)
+    public function destroy(Job $job)
     {
-        //
+        $job->delete();
+
+        return to_route('jobs.index');
     }
 }

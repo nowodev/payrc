@@ -69,8 +69,10 @@ class ShiftController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Shift $shift)
+    public function destroy(Job $job, Shift $shift)
     {
-        //
+        $shift->delete();
+
+        return to_route('shift.index', $job);
     }
 }
