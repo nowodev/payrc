@@ -30,8 +30,6 @@ const defaultData = {
   has_break: "",
   break_type: "",
   break_duration: "",
-  start_break: "",
-  end_break: "",
   total_hours: "",
 };
 
@@ -317,18 +315,6 @@ const closeModal = () => {
                             scope="col"
                             class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
                           >
-                            Start Break
-                          </th>
-                          <th
-                            scope="col"
-                            class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                          >
-                            End Break
-                          </th>
-                          <th
-                            scope="col"
-                            class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                          >
                             Total Hours
                           </th>
                           <th
@@ -392,12 +378,6 @@ const closeModal = () => {
                             {{ shift.break_type }}
                           </td>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {{ shift.start_break }}
-                          </td>
-                          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {{ shift.end_break }}
-                          </td>
-                          <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {{ shift.total_hours }}
                           </td>
                           <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
@@ -431,7 +411,7 @@ const closeModal = () => {
 
                         <tr v-show="shifts == ''">
                           <td
-                            colspan="10"
+                            colspan="8"
                             class="whitespace-nowrap w-full text-center px-3 py-4 text-sm text-gray-500"
                           >
                             No Record
@@ -460,7 +440,7 @@ const closeModal = () => {
             Add your teammate to your team and start work to get things done
           </p>
 
-          <form class="mt-8 space-y-8">
+          <form class="mt-6 space-y-6">
             <div class="grid grid-cols-3 gap-x-4">
               <div>
                 <InputLabel for="shift_name" value="Shfit Name" />
@@ -555,32 +535,6 @@ const closeModal = () => {
                 </div>
 
                 <InputError :message="form.errors.break_duration" class="mt-2" />
-              </div>
-
-              <div v-show="form.has_break == 1">
-                <InputLabel for="start_break" value="Start Break" />
-
-                <TextInput
-                  id="start_break"
-                  type="time"
-                  v-model="form.start_break"
-                  class="block mt-1 w-full"
-                />
-
-                <InputError :message="form.errors.start_break" class="mt-2" />
-              </div>
-
-              <div v-show="form.has_break == 1">
-                <InputLabel for="end_break" value="End Break" />
-
-                <TextInput
-                  id="end_break"
-                  type="time"
-                  v-model="form.end_break"
-                  class="block mt-1 w-full"
-                />
-
-                <InputError :message="form.errors.end_break" class="mt-2" />
               </div>
 
               <div>

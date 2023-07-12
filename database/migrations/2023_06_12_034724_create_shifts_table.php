@@ -21,8 +21,6 @@ return new class extends Migration
             $table->boolean('has_break');
             $table->string('break_type')->nullable();
             $table->string('break_duration')->nullable();
-            $table->time('start_break')->nullable();
-            $table->time('end_break')->nullable();
             $table->string('total_hours');
             $table->string('expected_earnings');
             $table->timestamps();

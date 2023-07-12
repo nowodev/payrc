@@ -28,8 +28,6 @@ class StoreShiftRequest extends FormRequest
             "has_break"         => ["required", "boolean"],
             "break_type"        => ["required_if:has_break,1", "string", "nullable"],
             "break_duration"    => ["required_if:has_break,1", "integer", "nullable"],
-            "start_break"       => ["required_if:has_break,1", "string", "nullable"],
-            "end_break"         => ["required_if:has_break,1", "string", "nullable"],
             "total_hours"       => ["required", "string", "max:255"],
             "expected_earnings" => ["required", "integer"],
         ];
