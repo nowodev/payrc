@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TimeSheetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,7 +33,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::resource('jobs', JobController::class)->except('create');
-    Route::resource('jobs/{job}/shift', ShiftController::class);
+    Route::resource('jobs/{job}/shift', ShiftController::class)->except('create');
+
+    Route::resource('timesheet', TimeSheetController::class);
 });
 
 require __DIR__ . '/auth.php';
