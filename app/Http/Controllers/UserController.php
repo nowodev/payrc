@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Enums\UserRole;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreUserRequest;
 use Illuminate\Support\Facades\Request;
 use App\Http\Requests\UpdateUserRequest;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -20,14 +20,14 @@ class UserController extends Controller
 
         $user = null;
 
-        if (!empty($job_id)) {
+        if (!empty($user_id)) {
             $user = User::findOrFail($user_id);
         }
 
         return inertia('User', [
             'users' => User::get(),
-            'job'  => fn () => $user,
-            'roles' => collect(UserRole::cases())->mapWithKeys(fn ($role) => [$role->value => $role->name])
+            'user'  => fn () => $user,
+            'roles' => UserRole::options()
         ]);
     }
 
@@ -52,19 +52,15 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        $data = $request->validated();
+
+        $user->update($data);
+
+        return to_route('users.index');
     }
 
     /**
@@ -72,6 +68,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return to_route('users.index');
     }
 }

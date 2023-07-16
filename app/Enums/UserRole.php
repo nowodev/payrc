@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use Illuminate\Support\Str;
 
 enum UserRole: string
 {
@@ -9,12 +10,24 @@ enum UserRole: string
     case ADMIN      = 'admin';
     case EMPLOYEE   = 'employee';
 
-    public function label(): string
+    public static function options(): array
     {
-        return match ($this) {
-            UserRole::SUPERADMIN => 'Super Admin',
-            UserRole::ADMIN      => 'Admin',
-            UserRole::SUPERADMIN => 'Employee'
-        };
+        $cases   = static::cases();
+        $options = [];
+
+        foreach ($cases as $case) {
+            $label = $case->name;
+
+            if (Str::contains($label, '_')) {
+                $label = Str::replace('_', ' ', $label);
+            }
+
+            $options[] = [
+                'value' => $case->value,
+                'label' => Str::title($label)
+            ];
+        }
+
+        return $options;
     }
 }
