@@ -28,8 +28,15 @@ const showingNavigationDropdown = ref(false);
               <!-- Navigation Links -->
               <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                 <NavLink
+                  :href="route('users.index')"
+                  :active="route().current('users.index')"
+                >
+                  Users
+                </NavLink>
+
+                <NavLink
                   :href="route('jobs.index')"
-                  :active="route().current('jobs.index')"
+                  :active="route().current('jobs.index') || route().current('shift.index') "
                 >
                   Jobs
                 </NavLink>
@@ -131,6 +138,13 @@ const showingNavigationDropdown = ref(false);
           class="sm:hidden"
         >
           <div class="pt-2 pb-3 space-y-1">
+            <ResponsiveNavLink
+              :href="route('users.index')"
+              :active="route().current('users.index')"
+            >
+              Users
+            </ResponsiveNavLink>
+
             <ResponsiveNavLink
               :href="route('jobs.index')"
               :active="route().current('jobs.index') || route().current('shift.index')"

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\JobController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TimeSheetController;
@@ -35,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('jobs', JobController::class)->except('create');
     Route::resource('jobs/{job}/shift', ShiftController::class)->except('create');
 
+    Route::resource('users', UserController::class);
     Route::resource('timesheet', TimeSheetController::class);
 });
 
